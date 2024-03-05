@@ -1,0 +1,5 @@
+report/*
+!report/*.tex
+!report/*.bib
+!report/*.pdf
+!report/images/*

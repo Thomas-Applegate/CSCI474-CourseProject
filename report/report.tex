@@ -1,0 +1,86 @@
+\documentclass[11pt,letterpaper,conference]{IEEEtran}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage[english]{babel}
+%proper format of quotations
+\usepackage{csquotes}
+%load biblatex for bibliography processing and reference management
+%use the ieee style for citations.
+\usepackage[style=ieee]{biblatex}
+%prevent bad hboxes when formating urls
+\usepackage{xurl}
+
+\MakeOuterQuote{"}
+
+%set graphics path where figures will be loaded from.
+\graphicspath{ {images/} }
+
+%load bibliography
+%this is the file wehre all citations are stored. Latex will figure out the order
+%dynamically when it compiles the document
+\addbibresource{refs.bib}
+
+\begin{document}
+
+\title{Conference Paper Title*}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{5\textsuperscript{th} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{6\textsuperscript{th} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+component, formatting, style, styling, insert
+\end{IEEEkeywords}
+
+\section{Introduction}
+This document is a model and instructions for \LaTeX.
+Please observe the conference page limits. Example citation 1 \cite{exampleA}. Example citation 2 \cite{exampleB}.
+
+\section*{Acknowledgment}
+
+\printbibliography[heading=bibintoc, title={References}]
+
+\end{document}
