@@ -76,7 +76,40 @@ random numbers, pseudorandomness, NIST, python
 \end{IEEEkeywords}
 
 \section{Introduction}
-Introduction here.
+Random number and bit generation is used heavily in cryptography and security applications, but it
+is really difficult to get truly random numbers. So the SP 800 90 created and provided guidelines for
+the generation of random numbers for cryptographic use. There are 3 parts to the SP 800 90 series,
+90A talks about mechanism for the generation of random bits using deterministic methods, 90B
+has discussion about how valid certain ideas of randomness and entropy are, and finally 90c
+specifically talks about construction and implementation of random bit generators. Random Bit
+Generation must be checked for randomness, so a total of fifteen statistical tests were developed
+and evaluated in order to determine the validity of a generator’s statistical randomness. The fifteen
+tests are as follows
+
+\begin{enumerate}
+\item Frequency (monobits) tests: This test determines whether the number of ones and zeros generated in a sequence are approximately the same as should be generated for a true random sequence.
+\item Test for Frequency Within a Block: This test tries to determine if the frequency of ones in a M-bit block is approximately half the size of the block.
+\item Runs Test: This test determines whether switching between substrings is too fast or slow.
+\item Test For Longest Run of Ones in a Block: This test determines if the longest runs of ones in a block is similar to the longest run in a truly random generation.
+\item Random Binary Matrix Rank Test: This test checks for linear dependence in a fixed length substring.
+\item Discrete Fourier Transform (Spectral) Test: This test detects periodic features that could indicate the lack of randomness.
+\item Non-Overlapping (Aperiodic) Template Matching Test: This test is used to reject sequence that show too many occurrences of a given non-periodic pattern (similar to the zero’s run but allows for statistical independence amongst tests).
+\item Overlapping (Periodic) Template Matching Test: This test is used to reject sequence that show changes from the expected number of runs of ones of a given length.
+\item Maurer's Universal Statistical Test: This test detects whether or not a sequence can be compressed without loss of information, a overly compressible sequence is considered non-random.
+\item Linear Complexity Test: This test determines if a sequence is complex enough to be considered random.
+\item Serial Test: The test determines the number of occurrences of 2m m-bit overlapping patterns is what should be expected for a random sequence.
+\item Approximate Entropy Test: This test compares the frequency of overlapping blocks of conservative lengths against what is expected for a random sequence.
+\item Cumulative Sum (Cusum) Test: This test determines if the cumulative sum of partial sequence in the test sequences are too large or too small relative to random sequences.
+\item Random Excursions Test: This test is used to determine if a number of visits to a state within a random walk except what is expected for a random sequence.
+\item Random Excursions Variant Test: This test detects deviation from the expected number of occurrences of various states in a random walk.
+\end{enumerate}
+
+There are multiple random generators that pass these tests, but how much do these random
+generators pass by. Why is that important or interesting for randomness. These are all interesting
+questions that could be researched by trying these fifteen tests are a few generators and reading
+into the results.
+
+The goal of this research is to compare and contrast different random generators using these fifteen tests. Our research will compare True Random, Deskewed True Random, and Pseudorandom, to see how these classes stack up against one another and compare the time cost of each.
 
 \section{Methods}
 To test the randomness of various algorithms, we will use the NIST randomness tests as
