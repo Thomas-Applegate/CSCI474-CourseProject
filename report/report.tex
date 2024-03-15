@@ -79,7 +79,11 @@ keywords, here
 Introduction here.
 
 \section{Methods}
-Methodology/Implementation here.
+To test the randomness of various algorithms, we will use the NIST randomness tests as
+implemented in Python \cite{rtestsuite}. The tests require a binary string of indeterminate length as the input.
+Each of the fifteen tests will output the P-value, as well as the result of whether the P-value means
+that the data can be considered truly random or not. For each of the algorithms that we test, we
+will use many samples of equal length to compare their randomness to each other.
 
 \section{Expected Results}
 Expected Results here.
