@@ -17,7 +17,7 @@ import copy
 
 # Import required src
 
-from nistrng import Test, Result
+from NistRng.nistrng import Test, Result
 
 
 class BinaryMatrix:

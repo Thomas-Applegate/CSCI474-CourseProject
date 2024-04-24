@@ -17,7 +17,7 @@ import scipy.special
 
 # Import required src
 
-from nistrng import Test, Result
+from NistRng.nistrng import Test, Result
 
 
 class OverlappingTemplateMatchingTest(Test):

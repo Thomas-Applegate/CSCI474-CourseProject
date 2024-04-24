@@ -15,9 +15,9 @@ import numpy
 
 # Import required src
 
-from nistrng import Test
+from NistRng.nistrng import Test
 
-from nistrng.sp800_22r1a import *
+from NistRng.nistrng.sp800_22r1a import *
 
 # Define default NIST battery constant
 
