@@ -71,7 +71,7 @@ class ApproximateEntropyTest(Test):
             # Compute C-i as the average of counts on the number of bits
             c_i: numpy.ndarray = counts[:] / float(bits.size)
             # Compute Phi-m based on C-i
-            phi_m.append(numpy.sum(c_i[c_i > 0.0] * numpy.log((c_i[c_i > 0.0] / 10.0))))
+            phi_m.append(numpy.sum(c_i[c_i > 0.0] * numpy.log((c_i[c_i > 0.0]))))
         # Compute Chi-Square from the computed statistics
         chi_square: float = 2 * bits.size * (math.log(2) - (phi_m[0] - phi_m[1]))
         # Compute the score (P-value)
