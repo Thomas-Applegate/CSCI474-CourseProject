@@ -77,16 +77,16 @@ random numbers, pseudorandomness, NIST, python
 
 \section{Introduction}
 Random number and bit generation is used heavily in cryptography and security applications, but it
-is difficult to get truly random numbers. Effective randomness is neccesary to ensure security in
-cryptographic applications, as cryptoanalytic attacks exist which can leverage patterns in encrypted
-data to decrypt without the neccesary credentials. For example, a team led by Nadia Heninger found
+is difficult to get truly random numbers. Effective randomness is necessary to ensure security in
+cryptographic applications, as cryptanalytic attacks exist which can leverage patterns in encrypted
+data to decrypt without the necessary credentials. For example, a team led by Nadia Heninger found
 that poorly seeded pseudo random number generation, or PRNG, could be used at scale to derive RSA
 private keys \cite{heninger2012mining}.
 
 The solution is not as simple as exclusive usage of true random numbers. Because the generation of
 true random numbers, or TRNG, is computationally expensive and requires a source of entropy, which
 is limited, TRNGs cannot be used for all the places in cryptographic algorithms where randomness is
-neccesary, like the usage of nonces in OFB or initialization vectors in CFB, especially if large amounts
+necessary, like the usage of nonces in OFB or initialization vectors in CFB, especially if large amounts
 of data is encrypted or the software is running on constrained devices. TRNGs may also be vulnerable to
 adversarial modification of the environment by the attacker, like changing the temperature of a device
 if the source of entropy is a temperature reading \cite{barak2003true}. Additionally, an attacker may
