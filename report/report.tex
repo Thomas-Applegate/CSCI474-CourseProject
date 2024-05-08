@@ -95,7 +95,7 @@ fast if it is the only source of randomness used. Because of this the standard t
 only for the generation of seeds for PRNGs \cite{8276259}.
 
 The purpose of our research is to evaluate the performance of three classes of randomness outlined by NIST
-using their statistical tests. The SP 800-90 was created to provide guidelines for
+using their statistical tests, named the SP 800-90. The SP 800-90 was created to provide guidelines for
 the generation of pseudo random numbers for cryptographic use. There are 3 parts to the SP 800-90 series:
 90A talks about mechanisms for the generation of random bits using deterministic methods, 90B
 discusses how valid certain ideas of randomness and entropy are, and finally 90C
@@ -122,12 +122,12 @@ tests are as follows
 \item Random Excursions Variant Test: This test detects deviation from the expected number of occurrences of various states in a random walk.
 \end{enumerate}
 
-There are multiple random generators that pass these tests, but how much do these random
-generators pass by. Why is that important or interesting for randomness. These are all interesting
-questions that could be researched by trying these fifteen tests are a few generators and reading
-into the results.
-
-The goal of this research is to compare and contrast different random generators using these fifteen tests. Our research will compare True Random, Deskewed True Random, and Pseudorandom, to see how these classes stack up against one another and compare the time cost of each.
+The goal of this research is to compare and contrast different random generators using these fifteen tests.
+Our research will compare True Random, Deskewed True Random, and Pseudorandom, to see how these classes
+stack up against one another and compare the time cost of each. Using a calculated P-value we can evaluate
+the results comparatively against each class. These results will provide insights into the strengths and
+weaknesses of each class, enabling cryptographers to make informed decisions on which class of RNG is
+suitable for their use case.
 
 \section{Methods}
 To test the randomness of various algorithms, we will use the NIST randomness tests as
