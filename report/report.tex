@@ -77,13 +77,31 @@ random numbers, pseudorandomness, NIST, python
 
 \section{Introduction}
 Random number and bit generation is used heavily in cryptography and security applications, but it
-is really difficult to get truly random numbers. So the SP 800 90 created and provided guidelines for
-the generation of random numbers for cryptographic use. There are 3 parts to the SP 800 90 series,
-90A talks about mechanism for the generation of random bits using deterministic methods, 90B
-has discussion about how valid certain ideas of randomness and entropy are, and finally 90c
+is difficult to get truly random numbers. Effective randomness is neccesary to ensure security in
+cryptographic applications, as cryptoanalytic attacks exist which can leverage patterns in encrypted
+data to decrypt without the neccesary credentials. For example, a team led by Nadia Heninger found
+that poorly seeded pseudo random number generation, or PRNG, could be used at scale to derive RSA
+private keys \cite{heninger2012mining}.
+
+The solution is not as simple as exclusive usage of true random numbers. Because the generation of
+true random numbers, or TRNG, is computationally expensive and requires a source of entropy, which
+is limited, TRNGs cannot be used for all the places in cryptographic algorithms where randomness is
+neccesary, like the usage of nonces in OFB or initialization vectors in CFB, especially if large amounts
+of data is encrypted or the software is running on constrained devices. TRNGs may also be vulnerable to
+adversarial modification of the environment by the attacker, like changing the temperature of a device
+if the source of entropy is a temperature reading \cite{barak2003true}. Additionally, an attacker may
+be able to leverage the loss in randomness as soon as the entropy pool empties, which can happen extremely
+fast if it is the only source of randomness used. Because of this the standard today is to utilize TRNGs
+only for the generation of seeds for PRNGs \cite{8276259}.
+
+The purpose of our research is to evaluate the performance of three classes of randomness outlined by NIST
+using their statistical tests. The SP 800-90 was created to provide guidelines for
+the generation of pseudo random numbers for cryptographic use. There are 3 parts to the SP 800-90 series:
+90A talks about mechanisms for the generation of random bits using deterministic methods, 90B
+discusses how valid certain ideas of randomness and entropy are, and finally 90C
 specifically talks about construction and implementation of random bit generators. Random Bit
 Generation must be checked for randomness, so a total of fifteen statistical tests were developed
-and evaluated in order to determine the validity of a generator’s statistical randomness. The fifteen
+and evaluated in order to determine the validity of a generator's statistical randomness. The fifteen
 tests are as follows
 
 \begin{enumerate}
