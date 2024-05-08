@@ -129,7 +129,7 @@ the results comparatively against each class. These results will provide insight
 weaknesses of each class, enabling cryptographers to make informed decisions on which class of RNG is
 suitable for their use case.
 
-\section{Methods}
+\section{Methodology}
 To test the randomness of various algorithms, we will use the NIST randomness tests as
 implemented in Python \cite{rtestsuite}. The tests require a binary string of indeterminate length as the input.
 Each of the fifteen tests will output the P-value, as well as the result of whether the P-value means
@@ -144,6 +144,15 @@ of the different classes are. We also intend to prove why specific classes
 are better suited for certain cryptographic tasks than others. We also intend to show why some algorithms
 necessitate complexity, like hardware input or SHA hashing, and which algorithms are unnecessarily
 computationally intensive or complicated for the quality of their output.
+
+\section{Experimental Investigation}
+TODO
+
+\section{Analysis}
+TODO
+
+\section{Limitations and Future Research}
+TODO
 
 \section{Conclusion}
 NIST provides 15 tests to compare and contrast random number generators. These tests promote different qualities of ideal random numbers. The team plans to use python libraries for the NIST tests, and various pseudorandom and deskewed true random number generating algorithms to compare them to true random numbers. We will summarize the results of these comparisons, and then advise on the generating algorithms suitable for cryptographic use.
