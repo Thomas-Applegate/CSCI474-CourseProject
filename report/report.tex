@@ -185,12 +185,47 @@ The tests that could not be ran due to insufficient bit length were binary matri
 When comparing the long random numbers, they both preformed worse overall than the smaller random numbers. Pseudorandom numbers had a higher score and passed two more tests than the true random numbers and both took extremely long to run.
 
 \section{Limitations and Future Research}
-The generation of our random numbers likely affected the results. It is difficult to generate true random numbers and know that they had a sufficient amount of entropy. Furthermore, the different lengths of true random numbers in our experiment cannot truly be compared since they were generated from different sources.
+Some notable limitations with these tests, outlined by NIST, are:
 
-For future work, the experiment would be repeated with larger sets of random numbers with additional lengths being tested. The random numbers would be generated with a Linux operating system and openssl would be used to hash larger bit lengths. These changes would allow us to compare sources of random numbers with less confounding variables due to data collection. 
+\begin{enumerate}
+\item The neccesity of large enough samples. In the case of the Maurer's Universal Statistical test,
+the large sample size was neccesary to find the asymptotic distribution of the data. We had difficulty
+generating a sufficient amount of bytes of TRNG for the $4*10^6$ byte tests.
+\item The inflexibility of using explicit values for P-value significance. There is a lack of research
+into what significance level is neccesary for security, so NIST chose values for illustrative purposes.
+They state this when they say "For the examples in this document, [the significance level] has been
+chosen to be 0.01. Note that, in many cases, the parameters in the examples do not conform to the
+recommended values; the examples are for illustrative purposes only" \cite{nistbook}.
+\item The inflexibility of a fixed list of limited tests. NIST has stated their intention to keep this
+list up to date when new flaws in methodology become known, but it remains that this test suite cannot
+say for certain whether a source of randomness is sufficient, the tests in combination are hoped to
+be sufficient.
+\item The quality of parameters that may be tweaked during testing. The test suite requires choosing
+a sequence length, sample size and block size, among other parameters which are best effort. They
+provide recommendations, like the recommendation for sample size being the inverse of the
+significance level, but an implementer of the test suite may choose to modify parameters until
+the results look the best, otherwise known as P hacking. Without a standard on what these parameters
+must be the test results cannot be compared between different implementers and the potential for
+implementation error increases.
+\end{enumerate}
+
+There are also limitations with our analysis. The generation of our random numbers likely affected the
+results. It is difficult to generate true random numbers and know that they have a sufficient amount
+of entropy. Furthermore, the different lengths of true random numbers in our experiment cannot truly
+be compared since they were generated from different sources.
+
+For future work, the experiment would be repeated with larger sets of random numbers with additional
+lengths being tested. The random numbers would be generated with a Linux operating system and openssl
+would be used to hash larger bit lengths. These changes would allow us to compare sources of random
+numbers with less confounding variables due to data collection. 
+
 
 \section{Conclusion}
-NIST provides 15 tests to compare and contrast random number generators. These tests promote different qualities of ideal random numbers. The team plans to use python libraries for the NIST tests, and various pseudorandom and deskewed true random number generating algorithms to compare them to true random numbers. We will summarize the results of these comparisons, and then advise on the generating algorithms suitable for cryptographic use.
+NIST provides 15 tests to compare and contrast random number generators. These tests promote different
+qualities of ideal random numbers. The team plans to use python libraries for the NIST tests, and
+various pseudorandom and deskewed true random number generating algorithms to compare them to true
+random numbers. We will summarize the results of these comparisons, and then advise on the generating
+algorithms suitable for cryptographic use.
 
 \printbibliography[heading=bibintoc, title={References}]
 
