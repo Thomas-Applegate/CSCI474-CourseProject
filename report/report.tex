@@ -125,9 +125,11 @@ tests are as follows
 The goal of this research is to compare and contrast different random generators using these fifteen tests.
 Our research will compare True Random, Deskewed True Random, and Pseudorandom, to see how these classes
 stack up against one another and compare the time cost of each. Using a calculated P-value we can evaluate
-the results comparatively against each class. These results will provide insights into the strengths and
-weaknesses of each class, enabling cryptographers to make informed decisions on which class of RNG is
-suitable for their use case.
+the results comparatively against each class. We also intend to show why some algorithms
+necessitate complexity, like hardware input or SHA hashing, and which algorithms are unnecessarily
+computationally intensive or complicated for the quality of their output. These results will provide
+insights into the strengths and weaknesses of each class, enabling cryptographers to make informed decisions
+on which class of RNG is suitable for their use case.
 
 \section{Methodology}
 To test the randomness of various algorithms, we will use the NIST randomness tests as
@@ -137,13 +139,13 @@ that the data can be considered truly random or not. For each of the algorithms 
 will use many samples of equal length to compare their randomness to each other.
 
 \section{Expected Results}
-We wish to use this work to prove what algorithms in each class, whether True Random, Deskewed True
-Random or Pseudorandom, consistently perform the best in the NIST randomness tests and are therefore
-relevant in designing cryptographically secure algorithms, as well as what the strengths and weaknesses
-of the different classes are. We also intend to prove why specific classes
-are better suited for certain cryptographic tasks than others. We also intend to show why some algorithms
-necessitate complexity, like hardware input or SHA hashing, and which algorithms are unnecessarily
-computationally intensive or complicated for the quality of their output.
+We do not expect True Random numbers to perform the best, as despite their quality they lack a feature that
+Pseudorandom number generators are designed to have: follow an asymptotic distribution. True Random numbers
+are not generated to fit an asymptotic distribution so in practice they have significant skew, or bias, decreasing their
+entropy and making them perform worse in objective tests of quality. This is why we are testing Deskewed True
+Random numbers as well, as it reduces the most significant weakness of TRNGs. With this in mind we expect Deskewed True
+Random to perform the best, with True Random following and then Pseudorandom. We expect, however, that Pseudorandom
+will be found to be the fastest RNG, with Deskewed True Random and True Random tied afterwards.
 
 \section{Experimental Investigation}
 There were a few stages to investigate the possible RNG classes against the NIST Randomness Tests: validating the code, collecting random data, and assessing the tests. These stages are detailed in the subsections to follow.
@@ -200,7 +202,7 @@ recommended values; the examples are for illustrative purposes only" \cite{nistb
 list up to date when new flaws in methodology become known, but it remains that this test suite cannot
 say for certain whether a source of randomness is sufficient, the tests in combination are hoped to
 be sufficient.
-\item The quality of parameters that may be tweaked during testing. The test suite requires choosing
+\item The quantity of parameters that may be tweaked during testing. The test suite requires choosing
 a sequence length, sample size and block size, among other parameters which are best effort. They
 provide recommendations, like the recommendation for sample size being the inverse of the
 significance level, but an implementer of the test suite may choose to modify parameters until
