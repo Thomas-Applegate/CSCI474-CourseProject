@@ -146,6 +146,36 @@ necessitate complexity, like hardware input or SHA hashing, and which algorithms
 computationally intensive or complicated for the quality of their output.
 
 \section{Experimental Investigation}
+There were a few stages to investigate the possible RNG classes against the NIST Randomness Tests: validating the code, collecting random data, and assessing the tests. These stages are detailed in the subsections to follow.
+\subsection{Validating Code}
+We started with python implementation of the NIST tests, NistRng, created by SAILab at the University of Sienna \cite{SAILab}. To validate the code, we conducted a code review, comparing the implementation to the NIST publication. We were able to find a number of errors in the implementation, all but one of which had fixes implemented by a GitHub user, zazuza7 \cite{zazuza7}, in a fork of the original library. A second code review was conducted on this implementation to verify that the noticed bugs were fixed. We could only find a single error, which we fixed in our own fork.\\
+
+This review also revealed that our testing suite had a few requirement differences to the NIST specifications. Table \ref{table:Bits} shows the inconsistencies found in the bit length requirements of the NistRng implementation and the NIST recommendation. We did not find an issue with these inconsistencies for our analysis, since we would be testing against data of larger than both requirements. It was also found that for the Non-Overlapping Pattern Matching Test that the NIST recommended parameters for pattern length were not quite met. NIST recommends (but notes that it does not require) using a pattern length of 9 bits, where NistRng only uses 8 bits to save on computation time. Including this extra bit added 10 minutes to the runtime of the tests, so we opted to leave it at 8 for our tests.
+
+\begin{table}
+\begin{tabular}{|l||c|c|}
+\hline
+Test & NIST & NistRng \\
+\hline
+Matrix Rank  & 38912 &  9728\\
+Mauer's Universal Statistical & $\approx 4*10^6$ & No Limit\\
+Approximate Entropy & No Limit & 512\\
+\hline
+\end{tabular}\\
+\caption{Bit Requirements for NIST standard and NistRng Implementation}
+\label{table:Bits}
+\end{table}
+
+\subsection{Collecting Data}
+We collected a set of large and small random numbers. Small length random numbers or length 1000 bits were used for ease of use for the majority of tests that did not require large numbers, and large random numbers of length $4*10^6$ were used to assess against the whole testing suite.\\
+True random numbers were collected using an online source of true random numbers. Originally we were using RANDOM.ORG, which uses astronomical noise to create a uniform set of random bytes \cite{RANDOM.ORG}. However, this source was not able to produce enough true random bits for our large number requirement. For this, we used another source I DONT KNOW WHAT ONE KAE USED. This source claims to produce uniform true random numbers as well, however we could not verify the claim.\\
+
+Psudo random numbers were collected using the python Random and numpy libraries. This mimics non cryptographic uses of PRNG. TODO\\
+
+We were unable to collect a reliable source of skewed random numbers, as online resources all claimed to create uniform random numbers. For this, we simulated skewed random numbers using true random numbers to seed a normal distribution. From a set of normally distributed numbers, we used a cryptographic hash to deskew the data. This provided an approximation of deskewed random numbers for us to test against.
+
+
+\subsection{Assessing NIST Tests}
 TODO
 
 \section{Analysis}
