@@ -13,8 +13,11 @@
 \usepackage[style=ieee]{biblatex}
 %prevent bad hboxes when formating urls
 \usepackage{xurl}
+\usepackage{caption}
 
 \MakeOuterQuote{"}
+
+\captionsetup[table]{skip=6pt}
 
 %set graphics path where figures will be loaded from.
 \graphicspath{ {images/} }
@@ -154,7 +157,8 @@ We started with python implementation of the NIST tests, NistRng, created by SAI
 
 This review also revealed that our testing suite had a few requirement differences to the NIST specifications. Table \ref{table:Bits} shows the inconsistencies found in the bit length requirements of the NistRng implementation and the NIST recommendation. We did not find an issue with these inconsistencies for our analysis, since we would be testing against data of larger than both requirements. It was also found that for the Non-Overlapping Pattern Matching Test that the NIST recommended parameters for pattern length were not quite met. NIST recommends (but notes that it does not require) using a pattern length of 9 bits, where NistRng only uses 8 bits to save on computation time. Including this extra bit added 10 minutes to the runtime of the tests, so we opted to leave it at 8 for our tests.
 
-\begin{table}
+\begin{table}[htp]
+\centering
 \begin{tabular}{|l||c|c|}
 \hline
 Test & NIST & NistRng \\
@@ -180,7 +184,11 @@ We were unable to collect a reliable source of skewed random numbers, as online 
 TODO
 
 \section{Analysis}
-Each set of random numbers was run against all eligible tests and the average score, time and tests passed were recorded. 
+Each set of random numbers was run against all eligible tests and the average score, time and tests passed were recorded. See table \ref{table:Results}.
+The tests that could not be run due to insufficient bit length were binary matrix rank, overlapping template matching, maurers universal and linear complexity. For a bit length of 256, the true random numbers achieved the highest score but also passed the least amount of tests. The pseudorandom numbers had the lowest score but passed the most tests. The deskewed numbers had a high score and passed a good amount tests but did take a little longer to run. Overall, the deskewed random numbers preformed the best and are easier to generate than true random numbers.
+
+\begin{table}[tbp]
+\centering
 \begin{tabular}{|c|c|c|c|c|c|} \hline
  &$2^8$ & & &$4*10^6$ & \\ \hline
  &TR &PR &D &TR &PR \\ \hline
@@ -188,8 +196,9 @@ Each set of random numbers was run against all eligible tests and the average sc
 Time(ms) &1.45 &1.27 &3.33 &21768.73 &28864.13 \\ \hline
 Passes &8/11 &10/11 &9/11 &4/15 &6/15 \\ \hline 
 \end{tabular}
-
-The tests that could not be run due to insufficient bit length were binary matrix rank, overlapping template matching, maurers universal and linear complexity. For a bit length of 256, the true random numbers achieved the highest score but also passed the least amount of tests. The pseudorandom numbers had the lowest score but passed the most tests. The deskewed numbers had a high score and passed a good amount tests but did take a little longer to run. Overall, the deskewed random numbers preformed the best and are easier to generate than true random numbers.
+\caption{Results of Tests}
+\label{table:Results}
+\end{table}
 
 When comparing the long random numbers, they both preformed worse overall than the smaller random numbers. Pseudorandom numbers had a higher score and passed two more tests than the true random numbers and both took extremely long to run.
 
