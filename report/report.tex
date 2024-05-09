@@ -167,22 +167,27 @@ Approximate Entropy & No Limit & 512\\
 \end{table}
 
 \subsection{Collecting Data}
-We collected a set of large and small random numbers. Small length random numbers or length 1000 bits were used for ease of use for the majority of tests that did not require large numbers, and large random numbers of length $4*10^6$ were used to assess against the whole testing suite.\\
-True random numbers were collected using an online source of true random numbers. Originally we were using RANDOM.ORG, which uses astronomical noise to create a uniform set of random bytes \cite{RANDOM.ORG}. However, this source was not able to produce enough true random bits for our large number requirement. For this, we used another source I DONT KNOW WHAT ONE KAE USED. This source claims to produce uniform true random numbers as well, however we could not verify the claim.\\
+We collected a set of large and small random numbers. Small length random numbers or length 256 bits were used for ease of use for the majority of tests that did not require large numbers, and large random numbers of length $4*10^6$ were used to assess against the whole testing suite.\\
+True random numbers were collected using an online source of true random numbers. Originally we were using RANDOM.ORG, which uses astronomical noise to create a uniform set of random bytes \cite{RANDOM.ORG}. However, this source was not able to produce enough true random bits for our large number requirement. For this, we used another source codebeautify.org. This source claims to produce uniform true random numbers as well, however we could not verify the claim and this may have impacted the results.\\
 
-Psudo random numbers were collected using the python Random and numpy libraries. This mimics non cryptographic uses of PRNG. TODO\\
+Psudorandom numbers were collected using the python Random and numpy libraries. This mimics non cryptographic uses of PRNG. We used randint to generate 0 and 1 for the appropriate amount of bits for each experiment.\\
 
-We were unable to collect a reliable source of skewed random numbers, as online resources all claimed to create uniform random numbers. For this, we simulated skewed random numbers using true random numbers to seed a normal distribution. From a set of normally distributed numbers, we used a cryptographic hash to deskew the data. This provided an approximation of deskewed random numbers for us to test against.
-
+We were unable to collect a reliable source of skewed random numbers, as online resources all claimed to create uniform random numbers. For this, we simulated skewed random numbers using true random numbers to seed a normal distribution. From a set of normally distributed numbers, we used a cryptographic hash to deskew the data. This provided an approximation of deskewed random numbers for us to test against. We were unable to generate large deskeweed random numbers as the hashes available would not produce large enough results.
 
 \subsection{Assessing NIST Tests}
 TODO
 
 \section{Analysis}
-TODO
+Each set of random numbers was ran against all eligible tests and the average score, time and tests passed were recorded. CAN SOMEONE PLEASE ADD THE TABLE FROM THE SLIDES
+
+The tests that could not be ran due to insufficient bit length were binary matrix rank, overlapping template matching, maurers universal and linear complexity. For a bit length of 256, the true random numbers achieved the highest score but also passed the least amount of tests. The pseudorandom numbers had the lowest score but passed the most tests. The deskewed numbers had a high score and passed a good amount tests but did take a little longer to run. Overall, the deskewed random numbers preformed the best and are easier to generate than true random numbers.
+
+When comparing the long random numbers, they both preformed worse overall than the smaller random numbers. Pseudorandom numbers had a higher score and passed two more tests than the true random numbers and both took extremely long to run.
 
 \section{Limitations and Future Research}
-TODO
+The generation of our random numbers likely affected the results. It is difficult to generate true random numbers and know that they had a sufficient amount of entropy. Furthermore, the different lengths of true random numbers in our experiment cannot truly be compared since they were generated from different sources.
+
+For future work, the experiment would be repeated with larger sets of random numbers with additional lengths being tested. The random numbers would be generated with a Linux operating system and openssl would be used to hash larger bit lengths. These changes would allow us to compare sources of random numbers with less confounding variables due to data collection. 
 
 \section{Conclusion}
 NIST provides 15 tests to compare and contrast random number generators. These tests promote different qualities of ideal random numbers. The team plans to use python libraries for the NIST tests, and various pseudorandom and deskewed true random number generating algorithms to compare them to true random numbers. We will summarize the results of these comparisons, and then advise on the generating algorithms suitable for cryptographic use.
