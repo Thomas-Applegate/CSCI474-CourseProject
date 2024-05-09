@@ -180,9 +180,16 @@ We were unable to collect a reliable source of skewed random numbers, as online 
 TODO
 
 \section{Analysis}
-Each set of random numbers was ran against all eligible tests and the average score, time and tests passed were recorded. CAN SOMEONE PLEASE ADD THE TABLE FROM THE SLIDES
+Each set of random numbers was run against all eligible tests and the average score, time and tests passed were recorded. 
+\begin{tabular}{|c|c|c|c|c|c|} \hline
+ &$2^8$ & & &$4*10^6$ & \\ \hline
+ &TR &PR &D &TR &PR \\ \hline
+ Score &0.4913 &0.3765 &0.4836 &0.1785 &0.2337 \\ \hline
+Time(ms) &1.45 &1.27 &3.33 &21768.73 &28864.13 \\ \hline
+Passes &8/11 &10/11 &9/11 &4/15 &6/15 \\ \hline 
+\end{tabular}
 
-The tests that could not be ran due to insufficient bit length were binary matrix rank, overlapping template matching, maurers universal and linear complexity. For a bit length of 256, the true random numbers achieved the highest score but also passed the least amount of tests. The pseudorandom numbers had the lowest score but passed the most tests. The deskewed numbers had a high score and passed a good amount tests but did take a little longer to run. Overall, the deskewed random numbers preformed the best and are easier to generate than true random numbers.
+The tests that could not be run due to insufficient bit length were binary matrix rank, overlapping template matching, maurers universal and linear complexity. For a bit length of 256, the true random numbers achieved the highest score but also passed the least amount of tests. The pseudorandom numbers had the lowest score but passed the most tests. The deskewed numbers had a high score and passed a good amount tests but did take a little longer to run. Overall, the deskewed random numbers preformed the best and are easier to generate than true random numbers.
 
 When comparing the long random numbers, they both preformed worse overall than the smaller random numbers. Pseudorandom numbers had a higher score and passed two more tests than the true random numbers and both took extremely long to run.
 
