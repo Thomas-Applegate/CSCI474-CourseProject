@@ -178,7 +178,7 @@ True random numbers were collected using an online source of true random numbers
 
 Psudorandom numbers were collected using the python Random and numpy libraries. This mimics non cryptographic uses of PRNG. We used randint to generate 0 and 1 for the appropriate amount of bits for each experiment.\\
 
-We were unable to collect a reliable source of skewed random numbers, as online resources all claimed to create uniform random numbers. For this, we simulated skewed random numbers using true random numbers to seed a normal distribution. From a set of normally distributed numbers, we used a cryptographic hash to deskew the data. This provided an approximation of deskewed random numbers for us to test against. We were unable to generate large deskeweed random numbers as the hashes available would not produce large enough results.
+We were unable to collect a reliable source of skewed random numbers, as online resources all claimed to create uniform random numbers. For this, we simulated skewed random numbers using true random numbers to seed a normal distribution. From a set of normally distributed numbers, we used a cryptographic hash to deskew the data. This provided an approximation of deskewed random numbers for us to test against. We were unable to generate large deskewed random numbers as the hashes available would not produce large enough results.
 
 \section{Analysis}
 Each set of random numbers was run against all eligible tests and the average score, time and tests passed were recorded. See table \ref{table:Results}.
@@ -239,10 +239,30 @@ numbers with less confounding variables due to data collection.
 NIST provides 15 tests to compare and contrast random number generators. These tests promote different
 qualities of ideal random numbers. We have used python libraries for the NIST tests, and
 various pseudorandom and deskewed true random number generating algorithms to compare them to true
-random numbers. These tests are important for the verification of randomness used in cryptographic systems, and we some of the implementations we looked at did not provide correct results. We recommend that authors of software implementing these tests should strive to better validate their solutions given the importance of this test suite in cryptography.
+random numbers. These tests are important for the verification of randomness used in cryptographic
+systems, and we some of the implementations we looked at did not provide correct results. We recommend
+that authors of software implementing these tests should strive to better validate their solutions
+given the importance of this test suite in cryptography.
 
-We will summarize the results of these comparisons, and then advise on the generating
-algorithms suitable for cryptographic use.
+After running this test suite on the random numbers we provided, namely True Random, Deskewed True
+Random and Pseudorandom, we found that the results did not match our expected results. True
+Random, with a score of 0.4913, performed better than Deskewed True Random, with a score of
+0.4836, on our input size of $2^8$ bytes. This did not match our expected results, suggesting that
+the quantity of random numbers generated was not significant enough to exhibit bias. Psuedorandom Numbers, with a score of 0.3765,
+scored the worst but was generated in the least amount of time. This result matches our expectations.
+
+Our expectations were proven wrong again when we tested on $4*10^6$ bytes. True Random, passing 4
+out of 15 tests, performed worse than Pseudorandom, passing 6 out of 15 tests. These results could
+show how liable this test suite is to randomness itself, as both sets of numbers passed very few tests.
+Without a prior reference frame it could be difficult for an engineer to decide if their source of
+randomness was sufficient with these results alone.
+
+These results show us that the quality of the numbers alone should not be taken into account when
+deciding whether a source of randomness is sufficient for a use case. Additional considerations,
+like time taken and quantity, should be taken. Tasks, like the generation of RSA private keys,
+should be performed with the highest quality possible RNG, while the generation of large numbers
+of nonces does not neccesitate such high quality. Overall, we have found that this test suite is
+best treated as one of many measures to validate RNG.
 
 \printbibliography[heading=bibintoc, title={References}]
 
