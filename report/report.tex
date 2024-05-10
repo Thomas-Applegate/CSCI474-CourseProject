@@ -13,11 +13,15 @@
 \usepackage[style=ieee]{biblatex}
 %prevent bad hboxes when formating urls
 \usepackage{xurl}
-\usepackage{caption}
 
 \MakeOuterQuote{"}
 
-\captionsetup[table]{skip=6pt}
+% found here https://tex.stackexchange.com/questions/458204/ieeetran-document-class-how-to-align-five-authors-properly/458208#458208
+\newcommand{\linebreakand}{%
+  \end{@IEEEauthorhalign}
+  \hfill\mbox{}\par
+  \mbox{}\hfill\begin{@IEEEauthorhalign}
+}
 
 %set graphics path where figures will be loaded from.
 \graphicspath{ {images/} }
@@ -29,33 +33,45 @@
 
 \begin{document}
 
-\title{CSCI474 - Course Project Proposal}
+\title{NIST Randomness Tests vs Pseudo Random Classes}
+
 
 \author{\IEEEauthorblockN{Thomas Applegate}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 tapplegate@mines.edu}
+%
 \and
+%
 \IEEEauthorblockN{Kaelyn Boutin}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 kvboutin@mines.edu}
+%
 \and
-\IEEEauthorblockN{Gabrielle Hadi}
+%
+\IEEEauthorblockN{Gabrielle Nadia Hadi}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 ghadi@mines.edu}
-\and
+%
+%\and
+\linebreakand
+%
 \IEEEauthorblockN{Addison Hart}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 addisonhart@mines.edu}
+%
 \and
-\IEEEauthorblockN{Et Griffin}
+%
+\IEEEauthorblockN{ET Griffin}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 egriffin@mines.edu}
+%
 \and
+%
 \IEEEauthorblockN{Isabelle Neckel}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
@@ -63,7 +79,6 @@ ineckel@mines.edu}
 }
 
 \maketitle
-
 \begin{abstract}
 The National Institute of Standards and Technology, NIST, defines fifteen separate tests
 for the randomness and unpredictability of random numbers \cite{nistbook}. True Random, Deskewed True
