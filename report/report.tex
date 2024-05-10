@@ -151,7 +151,7 @@ Random to perform the best, with True Random following and then Pseudorandom. We
 will be found to be the fastest RNG, with Deskewed True Random and True Random tied afterwards.
 
 \section{Experimental Investigation}
-There were a few stages to investigate the possible RNG classes against the NIST Randomness Tests: validating the code, collecting random data, and assessing the tests. These stages are detailed in the subsections to follow.
+There were a few stages to investigate the possible RNG classes against the NIST Randomness Tests: validating the code and collecting random data. These stages are detailed in the subsections to follow.
 \subsection{Validating Code}
 We started with python implementation of the NIST tests, NistRng, created by SAILab at the University of Sienna \cite{SAILab}. To validate the code, we conducted a code review, comparing the implementation to the NIST publication. We were able to find a number of errors in the implementation, all but one of which had fixes implemented by a GitHub user, zazuza7 \cite{zazuza7}, in a fork of the original library. A second code review was conducted on this implementation to verify that the noticed bugs were fixed. We could only find a single error, which we fixed in our own fork.\\
 
@@ -179,9 +179,6 @@ True random numbers were collected using an online source of true random numbers
 Psudorandom numbers were collected using the python Random and numpy libraries. This mimics non cryptographic uses of PRNG. We used randint to generate 0 and 1 for the appropriate amount of bits for each experiment.\\
 
 We were unable to collect a reliable source of skewed random numbers, as online resources all claimed to create uniform random numbers. For this, we simulated skewed random numbers using true random numbers to seed a normal distribution. From a set of normally distributed numbers, we used a cryptographic hash to deskew the data. This provided an approximation of deskewed random numbers for us to test against. We were unable to generate large deskeweed random numbers as the hashes available would not produce large enough results.
-
-\subsection{Assessing NIST Tests}
-TODO
 
 \section{Analysis}
 Each set of random numbers was run against all eligible tests and the average score, time and tests passed were recorded. See table \ref{table:Results}.
