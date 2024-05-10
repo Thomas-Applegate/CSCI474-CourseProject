@@ -240,9 +240,11 @@ numbers with less confounding variables due to data collection.
 
 \section{Conclusion}
 NIST provides 15 tests to compare and contrast random number generators. These tests promote different
-qualities of ideal random numbers. The team plans to use python libraries for the NIST tests, and
+qualities of ideal random numbers. We have used python libraries for the NIST tests, and
 various pseudorandom and deskewed true random number generating algorithms to compare them to true
-random numbers. We will summarize the results of these comparisons, and then advise on the generating
+random numbers. These tests are important for the verification of randomness used in cryptographic systems, and we some of the implementations we looked at did not provide correct results. We recommend that authors of software implementing these tests should strive to better validate their solutions given the importance of this test suite in cryptography.
+
+We will summarize the results of these comparisons, and then advise on the generating
 algorithms suitable for cryptographic use.
 
 \printbibliography[heading=bibintoc, title={References}]
