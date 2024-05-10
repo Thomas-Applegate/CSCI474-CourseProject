@@ -174,7 +174,7 @@ Approximate Entropy & No Limit & 512\\
 
 \subsection{Collecting Data}
 We collected a set of large and small random numbers. Small length random numbers or length 256 bits were used for ease of use for the majority of tests that did not require large numbers, and large random numbers of length $4*10^6$ were used to assess against the whole testing suite.\\
-True random numbers were collected using an online source of true random numbers. Originally we were using RANDOM.ORG, which uses astronomical noise to create a uniform set of random bytes \cite{RANDOM.ORG}. However, this source was not able to produce enough true random bits for our large number requirement. For this, we used another source codebeautify.org. This source claims to produce uniform true random numbers as well, however we could not verify the claim and this may have impacted the results.\\
+True random numbers were collected using an online source of true random numbers. Originally we were using RANDOM.ORG, which uses astronomical noise to create a uniform set of random bytes \cite{RANDOM.ORG}. However, this source was not able to produce enough true random bits for our large number requirement. For this, we used another source codebeautify.org \cite{codebeautify}. This source claims to produce uniform true random numbers as well, however we could not verify the claim and this may have impacted the results.\\
 
 Psudorandom numbers were collected using the python Random and numpy libraries. This mimics non cryptographic uses of PRNG. We used randint to generate 0 and 1 for the appropriate amount of bits for each experiment.\\
 
