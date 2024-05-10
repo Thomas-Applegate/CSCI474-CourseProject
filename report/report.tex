@@ -13,11 +13,16 @@
 \usepackage[style=ieee]{biblatex}
 %prevent bad hboxes when formating urls
 \usepackage{xurl}
-\usepackage{caption}
 
 \MakeOuterQuote{"}
 
-\captionsetup[table]{skip=6pt}
+% new line command in order to align authors better
+% found here https://tex.stackexchange.com/questions/458204/ieeetran-document-class-how-to-align-five-authors-properly/458208#458208
+\newcommand{\linebreakand}{%
+  \end{@IEEEauthorhalign}
+  \hfill\mbox{}\par
+  \mbox{}\hfill\begin{@IEEEauthorhalign}
+}
 
 %set graphics path where figures will be loaded from.
 \graphicspath{ {images/} }
@@ -29,39 +34,49 @@
 
 \begin{document}
 
-\title{CSCI474 - Course Project Proposal}
+\title{NIST Randomness Tests vs Pseudo Random Classes}
 
 \author{\IEEEauthorblockN{Thomas Applegate}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 tapplegate@mines.edu}
+%
 \and
+%
 \IEEEauthorblockN{Kaelyn Boutin}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 kvboutin@mines.edu}
+%
 \and
-\IEEEauthorblockN{Gabrielle Hadi}
+%
+\IEEEauthorblockN{Gabrielle Nadia Hadi}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 ghadi@mines.edu}
-\and
+%
+%\and
+\linebreakand
+%
 \IEEEauthorblockN{Addison Hart}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 addisonhart@mines.edu}
+%
 \and
-\IEEEauthorblockN{Et Griffin}
+%
+\IEEEauthorblockN{ET Griffin}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 egriffin@mines.edu}
+%
 \and
+%
 \IEEEauthorblockN{Isabelle Neckel}
 \IEEEauthorblockA{\textit{Colorado School of Mines} \\
 Golden, CO, USA \\
 ineckel@mines.edu}
 }
-
 \maketitle
 
 \begin{abstract}
@@ -80,31 +95,13 @@ random numbers, pseudorandomness, NIST, python
 
 \section{Introduction}
 Random number and bit generation is used heavily in cryptography and security applications, but it
-is difficult to get truly random numbers. Effective randomness is necessary to ensure security in
-cryptographic applications, as cryptanalytic attacks exist which can leverage patterns in encrypted
-data to decrypt without the necessary credentials. For example, a team led by Nadia Heninger found
-that poorly seeded pseudo random number generation, or PRNG, could be used at scale to derive RSA
-private keys \cite{heninger2012mining}.
-
-The solution is not as simple as exclusive usage of true random numbers. Because the generation of
-true random numbers, or TRNG, is computationally expensive and requires a source of entropy, which
-is limited, TRNGs cannot be used for all the places in cryptographic algorithms where randomness is
-necessary, like the usage of nonces in OFB or initialization vectors in CFB, especially if large amounts
-of data is encrypted or the software is running on constrained devices. TRNGs may also be vulnerable to
-adversarial modification of the environment by the attacker, like changing the temperature of a device
-if the source of entropy is a temperature reading \cite{barak2003true}. Additionally, an attacker may
-be able to leverage the loss in randomness as soon as the entropy pool empties, which can happen extremely
-fast if it is the only source of randomness used. Because of this the standard today is to utilize TRNGs
-only for the generation of seeds for PRNGs \cite{8276259}.
-
-The purpose of our research is to evaluate the performance of three classes of randomness outlined by NIST
-using their statistical tests, named the SP 800-90. The SP 800-90 was created to provide guidelines for
-the generation of pseudo random numbers for cryptographic use. There are 3 parts to the SP 800-90 series:
-90A talks about mechanisms for the generation of random bits using deterministic methods, 90B
-discusses how valid certain ideas of randomness and entropy are, and finally 90C
+is really difficult to get truly random numbers. So the SP 800 90 created and provided guidelines for
+the generation of random numbers for cryptographic use. There are 3 parts to the SP 800 90 series,
+90A talks about mechanism for the generation of random bits using deterministic methods, 90B
+has discussion about how valid certain ideas of randomness and entropy are, and finally 90c
 specifically talks about construction and implementation of random bit generators. Random Bit
 Generation must be checked for randomness, so a total of fifteen statistical tests were developed
-and evaluated in order to determine the validity of a generator's statistical randomness. The fifteen
+and evaluated in order to determine the validity of a generator’s statistical randomness. The fifteen
 tests are as follows
 
 \begin{enumerate}
@@ -125,125 +122,40 @@ tests are as follows
 \item Random Excursions Variant Test: This test detects deviation from the expected number of occurrences of various states in a random walk.
 \end{enumerate}
 
-The goal of this research is to compare and contrast different random generators using these fifteen tests.
-Our research will compare True Random, Deskewed True Random, and Pseudorandom, to see how these classes
-stack up against one another and compare the time cost of each. Using a calculated P-value we can evaluate
-the results comparatively against each class. We also intend to show why some algorithms
-necessitate complexity, like hardware input or SHA hashing, and which algorithms are unnecessarily
-computationally intensive or complicated for the quality of their output. These results will provide
-insights into the strengths and weaknesses of each class, enabling cryptographers to make informed decisions
-on which class of RNG is suitable for their use case.
+There are multiple random generators that pass these tests, but how much do these random
+generators pass by. Why is that important or interesting for randomness. These are all interesting
+questions that could be researched by trying these fifteen tests are a few generators and reading
+into the results.
 
-\section{Methodology}
-To test the randomness of various algorithms, we will use the NIST randomness tests as
-implemented in Python \cite{rtestsuite}. The tests require a binary string of indeterminate length as the input.
-Each of the fifteen tests will output the P-value, as well as the result of whether the P-value means
-that the data can be considered truly random or not. For each of the algorithms that we test, we
-will use many samples of equal length to compare their randomness to each other.
+The goal of this research is to compare and contrast different random generators using these fifteen tests. Our research will compare True Random, Deskewed True Random, and Pseudorandom, to see how these classes stack up against one another and compare the time cost of each.
 
-\section{Expected Results}
-We do not expect True Random numbers to perform the best, as despite their quality they lack a feature that
-Pseudorandom number generators are designed to have: follow an asymptotic distribution. True Random numbers
-are not generated to fit an asymptotic distribution so in practice they have significant skew, or bias, decreasing their
-entropy and making them perform worse in objective tests of quality. This is why we are testing Deskewed True
-Random numbers as well, as it reduces the most significant weakness of TRNGs. With this in mind we expect Deskewed True
-Random to perform the best, with True Random following and then Pseudorandom. We expect, however, that Pseudorandom
-will be found to be the fastest RNG, with Deskewed True Random and True Random tied afterwards.
+%\section{Methods}
+%To test the randomness of various algorithms, we will use the NIST randomness tests as
+%implemented in Python \cite{rtestsuite}. The tests require a binary string of indeterminate length as the input.
+%Each of the fifteen tests will output the P-value, as well as the result of whether the P-value means
+%that the data can be considered truly random or not. For each of the algorithms that we test, we
+%will use many samples of equal length to compare their randomness to each other.
+\section{Key idea and Approach}
+\section{Activities}
+\section{Analysis and Observations}
 
-\section{Experimental Investigation}
-There were a few stages to investigate the possible RNG classes against the NIST Randomness Tests: validating the code, collecting random data, and assessing the tests. These stages are detailed in the subsections to follow.
-\subsection{Validating Code}
-We started with python implementation of the NIST tests, NistRng, created by SAILab at the University of Sienna \cite{SAILab}. To validate the code, we conducted a code review, comparing the implementation to the NIST publication. We were able to find a number of errors in the implementation, all but one of which had fixes implemented by a GitHub user, zazuza7 \cite{zazuza7}, in a fork of the original library. A second code review was conducted on this implementation to verify that the noticed bugs were fixed. We could only find a single error, which we fixed in our own fork.\\
-
-This review also revealed that our testing suite had a few requirement differences to the NIST specifications. Table \ref{table:Bits} shows the inconsistencies found in the bit length requirements of the NistRng implementation and the NIST recommendation. We did not find an issue with these inconsistencies for our analysis, since we would be testing against data of larger than both requirements. It was also found that for the Non-Overlapping Pattern Matching Test that the NIST recommended parameters for pattern length were not quite met. NIST recommends (but notes that it does not require) using a pattern length of 9 bits, where NistRng only uses 8 bits to save on computation time. Including this extra bit added 10 minutes to the runtime of the tests, so we opted to leave it at 8 for our tests.
-
-\begin{table}[htp]
-\centering
-\begin{tabular}{|l||c|c|}
-\hline
-Test & NIST & NistRng \\
-\hline
-Matrix Rank  & 38912 &  9728\\
-Mauer's Universal Statistical & $\approx 4*10^6$ & No Limit\\
-Approximate Entropy & No Limit & 512\\
-\hline
-\end{tabular}\\
-\caption{Bit Requirements for NIST standard and NistRng Implementation}
-\label{table:Bits}
-\end{table}
-
-\subsection{Collecting Data}
-We collected a set of large and small random numbers. Small length random numbers or length 256 bits were used for ease of use for the majority of tests that did not require large numbers, and large random numbers of length $4*10^6$ were used to assess against the whole testing suite.\\
-True random numbers were collected using an online source of true random numbers. Originally we were using RANDOM.ORG, which uses astronomical noise to create a uniform set of random bytes \cite{RANDOM.ORG}. However, this source was not able to produce enough true random bits for our large number requirement. For this, we used another source codebeautify.org. This source claims to produce uniform true random numbers as well, however we could not verify the claim and this may have impacted the results.\\
-
-Psudorandom numbers were collected using the python Random and numpy libraries. This mimics non cryptographic uses of PRNG. We used randint to generate 0 and 1 for the appropriate amount of bits for each experiment.\\
-
-We were unable to collect a reliable source of skewed random numbers, as online resources all claimed to create uniform random numbers. For this, we simulated skewed random numbers using true random numbers to seed a normal distribution. From a set of normally distributed numbers, we used a cryptographic hash to deskew the data. This provided an approximation of deskewed random numbers for us to test against. We were unable to generate large deskeweed random numbers as the hashes available would not produce large enough results.
-
-\subsection{Assessing NIST Tests}
-TODO
-
-\section{Analysis}
-Each set of random numbers was run against all eligible tests and the average score, time and tests passed were recorded. See table \ref{table:Results}.
-The tests that could not be run due to insufficient bit length were binary matrix rank, overlapping template matching, maurers universal and linear complexity. For a bit length of 256, the true random numbers achieved the highest score but also passed the least amount of tests. The pseudorandom numbers had the lowest score but passed the most tests. The deskewed numbers had a high score and passed a good amount tests but did take a little longer to run. Overall, the deskewed random numbers preformed the best and are easier to generate than true random numbers.
-
-\begin{table}[hbp]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|} \hline
- &$2^8$ & & &$4*10^6$ & \\ \hline
- &TR &PR &D &TR &PR \\ \hline
- Score &.4913 &.3765 &.4836 &.1785 &.2337 \\ \hline
-Time(ms) &1.45 &1.27 &3.33 &21768.73 &28864.13 \\ \hline
-Passes &8/11 &10/11 &9/11 &4/15 &6/15 \\ \hline 
-\end{tabular}
-\caption{Results of Tests}
-\label{table:Results}
-\end{table}
-
-When comparing the long random numbers, they both preformed worse overall than the smaller random numbers. Pseudorandom numbers had a higher score and passed two more tests than the true random numbers and both took extremely long to run.
-
-\section{Limitations and Future Research}
-Some notable limitations with these tests, outlined by NIST, are:
-
-\begin{enumerate}
-\item The neccesity of large enough samples. In the case of the Maurer's Universal Statistical test,
-the large sample size was neccesary to find the asymptotic distribution of the data. We had difficulty
-generating a sufficient amount of bytes of TRNG for the $4*10^6$ byte tests.
-\item The inflexibility of using explicit values for P-value significance. There is a lack of research
-into what significance level is neccesary for security, so NIST chose values for illustrative purposes.
-They state this when they say "For the examples in this document, [the significance level] has been
-chosen to be 0.01. Note that, in many cases, the parameters in the examples do not conform to the
-recommended values; the examples are for illustrative purposes only" \cite{nistbook}.
-\item The inflexibility of a fixed list of limited tests. NIST has stated their intention to keep this
-list up to date when new flaws in methodology become known, but it remains that this test suite cannot
-say for certain whether a source of randomness is sufficient, the tests in combination are hoped to
-be sufficient.
-\item The quantity of parameters that may be tweaked during testing. The test suite requires choosing
-a sequence length, sample size and block size, among other parameters which are best effort. They
-provide recommendations, like the recommendation for sample size being the inverse of the
-significance level, but an implementer of the test suite may choose to modify parameters until
-the results look the best, otherwise known as P hacking. Without a standard on what these parameters
-must be the test results cannot be compared between different implementers and the potential for
-implementation error increases.
-\end{enumerate}
-
-There are also limitations with our analysis. The generation of our random numbers likely affected the
-results. It is difficult to generate true random numbers and know that they have a sufficient amount
-of entropy. Furthermore, the different lengths of true random numbers in our experiment cannot truly
-be compared since they were generated from different sources.
-
-For future work, the experiment would be repeated with larger sets of random numbers with additional
-lengths being tested. The random numbers would be generated with a Linux operating system and openssl
-would be used to hash larger bit lengths. These changes would allow us to compare sources of random
-numbers with less confounding variables due to data collection. 
+%\section{Expected Results}
+%We wish to use this work to prove what algorithms in each class, whether True Random, Deskewed True
+%Random or Pseudorandom, consistently perform the best in the NIST randomness tests and are therefore
+%relevant in designing cryptographically secure algorithms, as well as what the strengths and weaknesses
+%of the different classes are. We also intend to prove why specific classes
+%are better suited for certain cryptographic tasks than others. We also intend to show why some algorithms
+%necessitate complexity, like hardware input or SHA hashing, and which algorithms are unnecessarily
+%computationally intensive or complicated for the quality of their output.
 
 
+\section{Limitations}
+\section{Potential Future Work}
 \section{Conclusion}
-NIST provides 15 tests to compare and contrast random number generators. These tests promote different
-qualities of ideal random numbers. The team plans to use python libraries for the NIST tests, and
-various pseudorandom and deskewed true random number generating algorithms to compare them to true
-random numbers. We will summarize the results of these comparisons, and then advise on the generating
-algorithms suitable for cryptographic use.
+NIST provides 15 tests to compare and contrast random number generators. These tests promote different qualities of ideal random numbers. The team plans to use python libraries for the NIST tests, and various pseudorandom and deskewed true random number generating algorithms to compare them to true random numbers. We will summarize the results of these comparisons, and then advise on the generating algorithms suitable for cryptographic use.
+
+
+
 
 \printbibliography[heading=bibintoc, title={References}]
 
